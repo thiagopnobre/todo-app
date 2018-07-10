@@ -1,0 +1,19 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thiagopnobre/todo-app.git"
+  },
+  "author": "Thiago Nobre <thiagopnobre@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thiagopnobre/todo-app/issues"
+  },
+  "homepage": "https://github.com/thiagopnobre/todo-app#readme"
+}
