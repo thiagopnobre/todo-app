@@ -3,6 +3,7 @@ import axios from 'axios'
 
 import PageHeader from '../template/pageHeader'
 import TodoForm from './todoForm'
+import TodoList from './todoList'
 
 const BASE_URL = 'http://localhost:3003/api/todos'
 
@@ -30,6 +31,7 @@ export default class Todo extends Component {
         <TodoForm description={this.state.description}
                   handleChange={this.handleChange}
                   handleAdd={this.handleAdd} />
+        <TodoList />
       </div>
     )
   }
