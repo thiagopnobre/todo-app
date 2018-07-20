@@ -16,9 +16,19 @@ export const search = () => {
 }
 
 export const add = (description) => {
+  const request = axios.post(BASE_URL, { description })
+  return dispatchRequestAndSearch(request, 'TODO_ADDED')
+}
+
+export const markAsDone = (todo) => {
+  const request = axios.put(`${BASE_URL}/${todo._id}`, { ...todo, done: true })
+  return dispatchRequestAndSearch(request, 'TODO_MARKED_AS_DONE')
+}
+
+const dispatchRequestAndSearch = (request, request_dispatch_type) => {
   return dispatch => {
-    axios.post(BASE_URL, { description })
-         .then(response => dispatch({ type: 'TODO_ADDED', payload: response.data }))
-         .then(response => dispatch(search()))
+    request.then(response => {
+      dispatch({ type: request_dispatch_type, payload: response.data })
+    }).then(response => dispatch(search()))
   }
 }
