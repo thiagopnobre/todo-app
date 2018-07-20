@@ -12,6 +12,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, list: updateTodoInList(action.payload, true, state.list) }
     case 'TODO_MARKED_AS_PENDING':
       return { ...state, list: updateTodoInList(action.payload, false, state.list) }
+    case 'TODO_REMOVED':
+      return { ...state, list: removeTodoFromList(action.payload, state.list) }
     default:
       return state
   }
@@ -29,4 +31,8 @@ const updateTodoInList = (id, done, list) => {
   }
 
   return updatedList
+}
+
+const removeTodoFromList = (id, list) => {
+  return list.filter(todo => todo._id !== id)
 }

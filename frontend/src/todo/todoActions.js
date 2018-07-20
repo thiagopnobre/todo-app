@@ -38,6 +38,14 @@ const markAs = (todo, done) => {
   }
 }
 
+export const remove = (todo) => {
+  return dispatch => {
+    axios.delete(`${BASE_URL}/${todo._id}`)
+         .then(response => dispatch({ type: 'TODO_REMOVED', payload: todo._id }))
+         .catch(error => alertRequestError(error))
+  }
+}
+
 const alertRequestError = (error) => {
   const error_message = error.response || error.request || error.message
   alert(`Error: ${error_message}`)
