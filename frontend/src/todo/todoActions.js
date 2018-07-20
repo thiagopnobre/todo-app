@@ -7,8 +7,9 @@ export const changeDescription = event => ({
   payload: event.target.value
 })
 
-export const search = () => {
-  const request = axios.get(`${BASE_URL}?sort=-createdAt`)
+export const search = (description) => {
+  const search = description ? `&description__regex=/${description}/` : ''
+  const request = axios.get(`${BASE_URL}?sort=-createdAt${search}`)
   return {
     type: 'TODO_SEARCHED',
     payload: request
@@ -19,7 +20,6 @@ export const add = (description) => {
   return dispatch => {
     axios.post(BASE_URL, { description })
          .then(response => dispatch(clear()))
-         .then(response => dispatch(search()))
   }
 }
 
@@ -48,7 +48,7 @@ export const remove = (todo) => {
 
 
 export const clear = () => {
-  return { type: 'TODO_CLEAR' }
+  return [{ type: 'TODO_CLEAR' }, search()]
 }
 
 const alertRequestError = (error) => {
