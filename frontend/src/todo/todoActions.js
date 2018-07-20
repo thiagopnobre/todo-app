@@ -16,19 +16,29 @@ export const search = () => {
 }
 
 export const add = (description) => {
-  const request = axios.post(BASE_URL, { description })
-  return dispatchRequestAndSearch(request, 'TODO_ADDED')
-}
-
-export const markAsDone = (todo) => {
-  const request = axios.put(`${BASE_URL}/${todo._id}`, { ...todo, done: true })
-  return dispatchRequestAndSearch(request, 'TODO_MARKED_AS_DONE')
-}
-
-const dispatchRequestAndSearch = (request, request_dispatch_type) => {
   return dispatch => {
-    request.then(response => {
-      dispatch({ type: request_dispatch_type, payload: response.data })
-    }).then(response => dispatch(search()))
+    axios.post(BASE_URL, { description })
+         .then(response => dispatch({ type: 'TODO_ADDED', payload: response.data }))
+         .then(response => dispatch(search()))
   }
+}
+
+export const markAsDone = todo => markAs(todo, true)
+
+export const markAsPending = todo => markAs(todo, false)
+
+const markAs = (todo, done) => {
+  return dispatch => {
+    axios.put(`${BASE_URL}/${todo._id}`, { ...todo, done })
+         .then((response) => {
+            const status = done ? 'DONE' : 'PENDING'
+            dispatch({ type: `TODO_MARKED_AS_${status}`, payload: response.data._id })
+         })
+         .catch(error => alertRequestError(error))
+  }
+}
+
+const alertRequestError = (error) => {
+  const error_message = error.response || error.request || error.message
+  alert(`Error: ${error_message}`)
 }
